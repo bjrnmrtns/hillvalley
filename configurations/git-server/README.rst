@@ -18,14 +18,10 @@ Prerequisites
 Build
 =====
 How to build the git-server docker image
-
-::
-  make build
+``make build``
 
 Run
 ===
-How to run the git-server docker image a a container
-
-::
-  make run
+How to run the git-server docker image a container
+``make run``
 
