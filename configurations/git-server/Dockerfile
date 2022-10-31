@@ -1,7 +1,5 @@
 FROM alpine:3.16
 
-ARG USER_WITH_ACCESS=bjorn
-
 RUN apk add --no-cache openssh git && ssh-keygen -A
 RUN adduser -D -s /usr/bin/git-shell git && \
     mkdir /home/git/.ssh && \
