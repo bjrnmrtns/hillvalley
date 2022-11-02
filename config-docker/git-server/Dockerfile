@@ -1,10 +1,12 @@
 FROM alpine:3.16
 
-RUN apk add --no-cache openssh git && ssh-keygen -A
+RUN apk add --no-cache openrc openssh git && ssh-keygen -A
 RUN adduser -D -s /usr/bin/git-shell git && \
     mkdir /home/git/.ssh && \
     echo "git:12345" | chpasswd && \
-    chmod 700 /home/git/.ssh
+    chmod 700 /home/git/.ssh && \
+    mkdir -p /run/openrc && \
+    touch /run/openrc/softlevel
 
 COPY output/fs/home/git/.ssh/authorized_keys /home/git/.ssh/authorized_keys
 COPY fs/home/git/git-shell-commands /home/git/git-shell-commands
@@ -15,4 +17,5 @@ RUN chown git:git -R /home/git/.ssh && \
     chmod 600 /home/git/.ssh/authorized_keys && \
     chmod 700 /home/git/git-shell-commands/no-interactive-login
 
-CMD ["/usr/sbin/sshd", "-D"]
+#CMD ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT ["sh", "-c", "rc-status; rc-service sshd start; /bin/sh"]
